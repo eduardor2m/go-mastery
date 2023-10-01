@@ -1,0 +1,10 @@
+{
+  "workbench.tree.indent": 16,
+  "material-icon-theme.folders.associations": {
+    "solid": "rules",
+    "algorithms": "core",
+    "data_structures": "class",
+    "concurrency_and_goroutines": "mappings",
+    "design_patterns": "project",
+  },
+}
