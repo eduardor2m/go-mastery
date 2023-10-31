@@ -2,9 +2,9 @@ package main
 
 import "fmt"
 
-func linearSearch(arr []int, i int) int {
-	for index, item := range arr {
-		if item == i {
+func linearSearch(arr []int, item int) int {
+	for index, value := range arr {
+		if item == value {
 			return index
 		}
 	}
@@ -13,13 +13,9 @@ func linearSearch(arr []int, i int) int {
 }
 
 func main() {
-	arr := []int{10, 15, 1, 2, 16, 9}
+	arr := []int{10, 20, 30}
 
-	result := linearSearch(arr, 3)
+	position := linearSearch(arr, -10)
 
-	if result == -1 {
-		fmt.Printf("Número não encontrado, resultado = %d", result)
-	} else {
-		fmt.Printf("Número encontrado, resultado = %d", result)
-	}
+	fmt.Println(position)
 }
