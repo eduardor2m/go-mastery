@@ -1,0 +1,19 @@
+{
+  "id": "2ee2271b-bceb-46f2-abe3-61b01bbe176b",
+  "importStreams": [
+    {
+      "id": "22793c3a-b76c-40cc-9a40-cde06e580145",
+      "name": "hello_gprc",
+      "importerName": "ProtoFile",
+      "createMissingOperations": true,
+      "options": {
+        "files": [
+          "../hello.proto"
+        ],
+        "importPaths": []
+      }
+    }
+  ],
+  "authConfigs": [],
+  "certificates": []
+}
