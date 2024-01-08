@@ -10,7 +10,7 @@ import (
 type SQLite struct{}
 
 func (instance SQLite) Connect() (*sql.Conn, error) {
-	db, err := sql.Open("sqlite3", "./database.db")
+	db, err := sql.Open("sqlite3", "./src/examples/testing_user_examples/database.db")
 	if err != nil {
 		return nil, err
 	}

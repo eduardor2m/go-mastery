@@ -30,11 +30,12 @@ func main() {
 
 	c.Route("/api/v1", func(c chi.Router) {
 		c.Get("/swagger/*", httpSwagger.Handler(
-			httpSwagger.URL("http://localhost:8080/swagger/doc.json"),
+			httpSwagger.URL("http://localhost:8080/api/v1/swagger/doc.json"),
 		))
 
 		c.Post("/login", login)
 		c.Post("/register", register)
+		c.Get("/auth", auth)
 	})
 
 	http.ListenAndServe(":8080", c)
@@ -198,6 +199,28 @@ func register(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("ok"))
 }
 
+// @Summary Authotization
+// @Description Authotization
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param token header string true "Authorization"
+// @Success 200 {string} string "ok"
+// @Router /auth [get]
+// @Security ApiKeyAuth
+func auth(w http.ResponseWriter, r *http.Request) {
+	token := r.Header.Get("Authorization")
+
+	clains, err := validateToken(token)
+
+	if err != nil {
+		w.Write([]byte("not ok"))
+		return
+	}
+
+	w.Write([]byte(fmt.Sprintf("ok %v", clains["email"])))
+}
+
 var mySigningKey = []byte("my-secret-key")
 
 func createToken(email string) (string, error) {
@@ -230,13 +253,13 @@ func validateToken(tokenString string) (jwt.MapClaims, error) {
 
 	// Verifique se o método de assinatura é válido
 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-		return nil, fmt.Errorf("Método de assinatura inválido")
+		return nil, fmt.Errorf("método de assinatura inválido")
 	}
 
 	// Verifique se o token está expirado
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		return claims, nil
 	} else {
-		return nil, fmt.Errorf("Token inválido")
+		return nil, fmt.Errorf("token inválido")
 	}
 }

@@ -17,6 +17,29 @@ info:
   title: Example API JWT
   version: 1.0.0
 paths:
+  /auth:
+    get:
+      consumes:
+      - application/json
+      description: Authotization
+      parameters:
+      - description: Authorization
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Authotization
+      tags:
+      - Auth
   /login:
     post:
       consumes:
