@@ -1,0 +1,69 @@
+basePath: /api/v1
+definitions:
+  main.UserRequestDTO:
+    properties:
+      email:
+        example: johndoe@gmail.com
+        type: string
+      password:
+        example: "12345678"
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: Eduardo Melo
+  description: This is a example API JWT
+  title: Example API JWT
+  version: 1.0.0
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.UserRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      - BasicAuth: []
+      summary: Login
+      tags:
+      - Auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.UserRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Register
+      tags:
+      - Auth
+swagger: "2.0"
