@@ -26,8 +26,6 @@ import (
 func main() {
 	c := chi.NewRouter()
 
-	// base path api/v1
-
 	c.Route("/api/v1", func(c chi.Router) {
 		c.Get("/swagger/*", httpSwagger.Handler(
 			httpSwagger.URL("http://localhost:8080/api/v1/swagger/doc.json"),
@@ -43,10 +41,10 @@ func main() {
 
 // model
 
-// type user struct {
-// 	email    string
-// 	password string
-// }
+type User struct {
+	email    string
+	password string
+}
 
 // controller
 
