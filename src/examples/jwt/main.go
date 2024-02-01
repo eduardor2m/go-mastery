@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 
@@ -20,7 +21,7 @@ import (
 // @title Example API JWT
 // @version 1.0.0
 // @contact.name Eduardo Melo
-// @description This is a example API JWT
+// @description This is an example API JWT
 // @host localhost:8080
 // @BasePath /api/v1
 func main() {
@@ -36,7 +37,7 @@ func main() {
 		c.Get("/auth", auth)
 	})
 
-	http.ListenAndServe(":8080", c)
+	log.Fatal(http.ListenAndServe(":8080", c))
 }
 
 // model
@@ -69,7 +70,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 
 	if err != nil {
-		w.Write([]byte("not ok"))
+		_, err := w.Write([]byte("not ok"))
+		if err != nil {
+			log.Println(err)
+		}
+
 		return
 	}
 
@@ -78,14 +83,22 @@ func login(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, &userReceived)
 
 	if err != nil {
-		w.Write([]byte("not ok"))
+		_, err := w.Write([]byte("not ok"))
+		if err != nil {
+			log.Println(err)
+		}
+
 		return
 	}
 
 	conn, err := database.SQLite{}.Connect()
 
 	if err != nil {
-		w.Write([]byte("not ok"))
+		_, err := w.Write([]byte("not ok"))
+		if err != nil {
+			log.Println(err)
+		}
+
 		return
 	}
 
@@ -96,12 +109,20 @@ func login(w http.ResponseWriter, r *http.Request) {
 	user, err := conn.QueryContext(ctx, "SELECT * FROM users WHERE email = ?", userReceived.Email)
 
 	if err != nil {
-		w.Write([]byte("not ok"))
+		_, err := w.Write([]byte("not ok"))
+		if err != nil {
+			log.Println(err)
+		}
+
 		return
 	}
 
 	if !user.Next() {
-		w.Write([]byte("not ok"))
+		_, err := w.Write([]byte("not ok"))
+		if err != nil {
+			log.Println(err)
+		}
+
 		return
 	}
 
