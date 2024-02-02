@@ -1,114 +1,40 @@
 package main
 
-import (
-	"fmt"
-)
+import "log"
 
-type Student struct {
-	id        string
-	name      string
-	birthdate string
+type Message interface {
+	Send(to string, message string) error
 }
 
-var students []Student
+type Email struct{}
 
-type Database interface {
-	getConnection() string
-	closeConnection() string
+func (e *Email) Send(to string, message string) error {
+	log.Println("Sending email to", to, "with message:", message)
+	return nil
 }
 
-type MySQL struct{}
+type SMS struct{}
 
-func (m *MySQL) getConnection() string {
-	return "MySQL connection"
+func (s *SMS) Send(to string, message string) error {
+	log.Println("Sending SMS to", to, "with message:", message)
+	return nil
 }
 
-func (m *MySQL) closeConnection() string {
-	return "MySQL connection closed"
+type Notification struct {
+	message Message
 }
 
-func NewMySQL() *MySQL {
-	return &MySQL{}
-}
-
-type StudentMySQLRepository interface {
-	GetAll() []Student
-	GetById(id string) Student
-	Create(student Student) Student
-}
-
-type StudentMySQLRepositoryImpl struct {
-	db Database
-}
-
-func NewStudentMySQLRepository(db Database) *StudentMySQLRepositoryImpl {
-	return &StudentMySQLRepositoryImpl{db: db}
-}
-
-func (s *StudentMySQLRepositoryImpl) GetAll() []Student {
-	s.db.getConnection()
-	defer s.db.closeConnection()
-	return students
-}
-
-func (s *StudentMySQLRepositoryImpl) GetById(id string) Student {
-	s.db.getConnection()
-	var student Student
-
-	for _, s := range students {
-		if s.id == id {
-			student = s
-		}
-	}
-	defer s.db.closeConnection()
-	return student
-}
-
-func (s *StudentMySQLRepositoryImpl) Create(student Student) Student {
-	s.db.getConnection()
-	students = append(students, student)
-	defer s.db.closeConnection()
-	return student
-}
-
-type StudentService interface {
-	GetAll() []Student
-	GetById(id string) Student
-	Create(student Student) Student
-}
-
-type StudentServiceImpl struct {
-	repository StudentMySQLRepository
-}
-
-func (s *StudentServiceImpl) GetAll() []Student {
-	return s.repository.GetAll()
-}
-
-func (s *StudentServiceImpl) GetById(id string) Student {
-	return s.repository.GetById(id)
-}
-
-func (s *StudentServiceImpl) Create(student Student) Student {
-	return s.repository.Create(student)
-}
-
-func NewStudentService(repository StudentMySQLRepository) *StudentServiceImpl {
-	return &StudentServiceImpl{repository: repository}
+func (n *Notification) Send(to string, message string) error {
+	return n.message.Send(to, message)
 }
 
 func main() {
-	db := NewMySQL()
-	repository := NewStudentMySQLRepository(db)
-	service := NewStudentService(repository)
-	s := Student{id: "1", name: "John", birthdate: "01/01/2000"}
-	service.Create(s)
-	searchedStudent := service.GetById("1")
-	fmt.Println("Nome do aluno: ", searchedStudent.name)
-	students := service.GetAll()
-	for _, student := range students {
-		fmt.Println("Nome do aluno: ", student.name)
-		fmt.Println("Data de nascimento do aluno: ", student.birthdate)
-		fmt.Println("ID do aluno: ", student.id)
-	}
+	email := &Email{}
+	sms := &SMS{}
+
+	notification := &Notification{email}
+	notification.Send("deveduardomelo@gmail.com", "Hello, World!")
+
+	notification = &Notification{sms}
+	notification.Send("123456789", "Hello, World!")
 }
