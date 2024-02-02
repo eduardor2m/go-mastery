@@ -10,7 +10,7 @@ import (
 type SQLite struct{}
 
 func (instance SQLite) Connect() (*sql.Conn, error) {
-	db, err := sql.Open("sqlite3", "./src/examples/testing_user_examples/database.db")
+	db, err := sql.Open("sqlite3", "./src/archive/jwt/database.db")
 	if err != nil {
 		return nil, err
 	}
@@ -20,7 +20,7 @@ func (instance SQLite) Connect() (*sql.Conn, error) {
 		return nil, err
 	}
 
-	_, err = conn.ExecContext(context.Background(), "CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, name TEXT, email TEXT, password TEXT, birth_date TEXT)")
+	_, err = conn.ExecContext(context.Background(), "CREATE TABLE IF NOT EXISTS users (email TEXT, password TEXT)")
 	if err != nil {
 		return nil, err
 	}

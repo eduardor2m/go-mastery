@@ -14,8 +14,8 @@ import (
 
 	httpSwagger "github.com/swaggo/http-swagger"
 
-	database "github.com/eduardor2m/go-mastery/src/examples/jwt/data"
-	_ "github.com/eduardor2m/go-mastery/src/examples/jwt/docs"
+	database "github.com/eduardor2m/go-mastery/src/archive/jwt/data"
+	_ "github.com/eduardor2m/go-mastery/src/archive/jwt/docs"
 )
 
 // @title Example API JWT

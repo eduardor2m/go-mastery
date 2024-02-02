@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/eduardor2m/go-mastery/src/examples/testing_user_examples/handlers"
+	"github.com/eduardor2m/go-mastery/src/archive/testing_user_examples/handlers"
 	"github.com/labstack/echo/v4"
 )
 

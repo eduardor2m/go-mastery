@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/eduardor2m/go-mastery/src/examples/testing_user_examples/database"
-	"github.com/eduardor2m/go-mastery/src/examples/testing_user_examples/entity/user"
+	"github.com/eduardor2m/go-mastery/src/archive/testing_user_examples/database"
+	"github.com/eduardor2m/go-mastery/src/archive/testing_user_examples/entity/user"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
